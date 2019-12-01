@@ -251,5 +251,66 @@ public class HostClient {
         welcomeData.close();
         dataSocket.close();
         responseFromClient = "Sucessfully downloaded file";
-    }
+	}
+	
+	public double getBalance() throws IOException {
+		File file = new File("balance.txt");
+		if(file.exists()) {
+			BufferedReader br = new BufferedReader(new FileReader(file));
+			String balanceString = br.readLine();
+			if(balanceString != null) {
+				double balance = Double.parseDouble(balanceString);
+				br.close();
+				return balance;
+			} else {
+				br.close();
+				return 0.00;
+			}
+		} else {
+			file.createNewFile();
+			FileWriter fr = null;
+			BufferedWriter bw = null;
+			try {
+				fr = new FileWriter(file);
+				bw = new BufferedWriter(fr);
+				bw.write("0.00\n");
+			} catch (IOException e){
+				e.printStackTrace();
+			} finally {
+				try {
+					bw.close();
+					fr.close();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+			return 0.00;
+		}
+	}
+
+	public void addToBalance (Double balance) throws IOException {
+		File file = new File("balance.txt");
+		if(file.exists()) {
+			FileWriter fr = null;
+			BufferedWriter bw = null;
+			try {
+				fr = new FileWriter(file);
+				bw = new BufferedWriter(fr);
+				bw.write(balance.toString() + "\n");
+			} catch (IOException e){
+				e.printStackTrace();
+			} finally {
+				try {
+					bw.close();
+					fr.close();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+		} 
+	}
+
+	public void subFromBalance (Double balance) throws IOException {
+		addToBalance(balance);
+	}
 }
