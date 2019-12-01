@@ -1,0 +1,3 @@
+Name:pandas.txt,Quality:best,Description:panda-test-files
+Name:gorillas.txt,Quality:slow,Description:big-ole-monkeys
+Name:starWars-Episode9.txt,Quality:fast,Description:han-solo-makes-a-comeback

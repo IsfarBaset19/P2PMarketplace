@@ -1,0 +1,32 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "type": "java",
+            "name": "Debug (Launch) - Current File",
+            "request": "launch",
+            "mainClass": "${file}"
+        },
+        {
+            "type": "java",
+            "name": "Debug (Launch)-CentralizedServer",
+            "request": "launch",
+            "mainClass": "CentralizedServer"
+        },
+        {
+            "type": "java",
+            "name": "Debug (Launch)-HostClient",
+            "request": "launch",
+            "mainClass": "HostClient"
+        },
+        {
+            "type": "java",
+            "name": "Debug (Launch)-gui",
+            "request": "launch",
+            "mainClass": "gui"
+        }
+    ]
+}
