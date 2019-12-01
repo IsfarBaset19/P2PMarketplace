@@ -1,3 +1,3 @@
-Name:pandas.txt,Quality:best,Description:panda-test-files
-Name:gorillas.txt,Quality:slow,Description:big-ole-monkeys
-Name:starWars-Episode9.txt,Quality:fast,Description:han-solo-makes-a-comeback
+Name:pandas.txt,Quality:best,Description:panda-test-files,Price:$5.00
+Name:gorillas.txt,Quality:slow,Description:big-ole-monkeys,Price:$10.50
+Name:starWars-Episode9.txt,Quality:fast,Description:solo-makes-a-comeback,Price:$2

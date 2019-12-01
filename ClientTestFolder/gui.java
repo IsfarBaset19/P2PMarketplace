@@ -140,10 +140,12 @@ public class gui {
         frame.getContentPane().add(serverHostName);
         serverHostName.setColumns(10);
 
+        // CHANGED FROM 14
         JLabel lblServerHostName = new JLabel("Server Host Name:");
         lblServerHostName.setBounds(8, 15, 133, 14);
         frame.getContentPane().add(lblServerHostName);
 
+        
         JLabel lblNewLabel = new JLabel("Username:");
         lblNewLabel.setBounds(10, 43, 75, 14);
         frame.getContentPane().add(lblNewLabel);
@@ -153,6 +155,7 @@ public class gui {
         frame.getContentPane().add(userName);
         userName.setColumns(10);
 
+       
         JLabel lblPort = new JLabel("Port:");
         lblPort.setBounds(289, 15, 34, 14);
         frame.getContentPane().add(lblPort);
@@ -162,6 +165,7 @@ public class gui {
         frame.getContentPane().add(portNumber);
         portNumber.setColumns(10);
 
+        // CHANGED FROM 14
         JLabel lblHostname = new JLabel("Hostname:");
         lblHostname.setBounds(200, 43, 69, 14);
         frame.getContentPane().add(lblHostname);
@@ -216,6 +220,7 @@ public class gui {
         registerButton.setBounds(10, 68, 137, 23);
         frame.getContentPane().add(registerButton);
 
+        // CHANGED FROM 14
         JLabel lblKeyword = new JLabel("Keyword:");
         lblKeyword.setBounds(10, 119, 60, 14);
         frame.getContentPane().add(lblKeyword);

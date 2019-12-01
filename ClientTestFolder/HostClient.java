@@ -14,7 +14,7 @@ public class HostClient {
 
 	public int port1;
 
-	public double bal = 22.50;
+	public double bal = 12.50;
 
 	public String responseFromClient = "";
 	public File directory = new File(System.getProperty("user.dir"));
@@ -194,8 +194,9 @@ public class HostClient {
 			String filename = stringArray[i + 2];
 			String quality = stringArray[i + 3];
 			String description = stringArray[i + 4];
-			fullEntry += userHostName + " " + connectionType + " " + filename + " " + quality + " " + description + "\n";
-			i += 4;
+			String price = stringArray[i + 5];
+			fullEntry += userHostName + " " + connectionType + " " + filename + " " + quality + " " + description + " " + price + "\n";
+			i += 5;
 			}
 			responseFromClient = "Query returned with results";	
 		} else {
