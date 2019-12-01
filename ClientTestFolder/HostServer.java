@@ -4,7 +4,7 @@ import java.util.*;
 
 class HostServer {
 
-    public static final int PORT = 8000;
+    public static final int PORT = 5000;
     public String responseFromServer = "";
     public static void main(String[] args) throws IOException
 
@@ -44,6 +44,7 @@ class ClientHandler extends Thread {
     String firstln;
     private Socket connectionSocket;
     String fileName;
+    //double clientBal;
     StringTokenizer tokens = new StringTokenizer("");
 
     public ClientHandler(Socket socket) {
@@ -84,6 +85,7 @@ class ClientHandler extends Thread {
                     firstln = tokens.nextToken();
                     port = Integer.parseInt(firstln);
                     clientCommand = tokens.nextToken();
+                    //clientCommand = tokens.nextToken();
                     // fileName = tokens.nextToken();
                 }
 
@@ -92,11 +94,12 @@ class ClientHandler extends Thread {
                 }
                 serverFiles(directory, listOfFiles);
 
-                if (clientCommand.equals("retr")) {
+                if (clientCommand.equals("buy")) {
                     Socket dataSocket = new Socket(connectionSocket.getInetAddress(), port);
                     DataOutputStream dataOutToClient = new DataOutputStream(dataSocket.getOutputStream());
                     // String fileName = "file.txt";
                     String fileName = tokens.nextToken();
+                    //String clientBal = tokens.nextToken();
                     //String filePath = directory.getPath() + "/" + fileName;
                     File myFile = new File(fileName);
                     //System.out.println(filePath);

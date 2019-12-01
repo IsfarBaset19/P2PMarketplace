@@ -115,7 +115,6 @@ public class gui {
                 try {
 
                     String PORT = portNumber.getText();
-                    //String BAL = currentBalance.getText();
                     String serverHost = serverHostName.getText();
                     message = "connect " + serverHost + " " + PORT;
                     port = Integer.parseInt(PORT);
@@ -198,8 +197,10 @@ public class gui {
                 String clientHostName = hostName.getText();
                 String clientConnectionType = speed.getSelectedItem().toString();
                 int serverPort = server.getPortNumber();
+                //String userBal = userBal.getText();
+                double userBal = bal;
                 try {
-                    host.registerToCentralServer(clientUserName, clientHostName, clientConnectionType, serverPort);
+                    host.registerToCentralServer(clientUserName, clientHostName, clientConnectionType, serverPort, userBal);
                     responseFromClient = host.responseFromClient;
                     printResults();
                     responseFromClient = "";
@@ -280,6 +281,9 @@ public class gui {
         goButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
 
+                
+
+                
                 // go command
                 String fileCommand = command.getText();
                 int serverToConnectToPort = 0;
@@ -287,6 +291,10 @@ public class gui {
                 String retrieveCommand = commands[0];
                 String fileName = commands[1];
                 String userHostName = commands[2];
+                String filePrice = commands[3];
+                //double myBal = bal;
+                boolean hasEnough = false;
+
                 try {
                     serverToConnectToPort = host.getClientPort(userHostName);
                     responseFromClient = host.responseFromClient;
@@ -296,6 +304,7 @@ public class gui {
                     
                 }
                 if(serverToConnectToPort != 0){
+                    
                     try{
                         host.establishConnection(serverToConnectToPort, retrieveCommand, fileName);
                         responseFromClient = host.responseFromClient;
@@ -304,14 +313,23 @@ public class gui {
                     } catch (Exception e5){
 
                     }
-                    try{
-                        host.pullData(serverToConnectToPort, retrieveCommand, fileName);
-                        responseFromClient = host.responseFromClient;
+
+                    hasEnough = host.checkBalanceEnough(userHostName, fileName);
+                    if (hasEnough){
+                        try{
+                            host.pullData(serverToConnectToPort, retrieveCommand, fileName);
+                            responseFromClient = host.responseFromClient;
+                            printResults();
+                            responseFromClient = "";
+                        } catch (Exception e5){
+
+                        }
+                    }else{
+                        responseFromClient = "---INSUFFICIENT FUNDS---";
                         printResults();
                         responseFromClient = "";
-                    } catch (Exception e5){
-
                     }
+                        
                 } else {
                     responseFromClient = "Could not connect to server";
                     printResults();

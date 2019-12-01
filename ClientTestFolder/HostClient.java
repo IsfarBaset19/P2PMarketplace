@@ -104,7 +104,7 @@ public class HostClient {
 	
 	}
 
-	public void registerToCentralServer(String clientUserName, String clientHostName, String connectionType, int serverPort)
+	public void registerToCentralServer(String clientUserName, String clientHostName, String connectionType, int serverPort, double bal)
 			throws IOException {
 		port1 += 2;
 		//this.uploadFileListToServer(connectionType, clientHostName);
@@ -219,6 +219,17 @@ public class HostClient {
         Socket controlSocket = new Socket("127.0.0.1", connectionPort);
 		outToClientServer = new DataOutputStream(controlSocket.getOutputStream());
 		responseFromClient = "Connectiong to user...";
+	}
+
+	public boolean checkBalanceEnough(String userHostName, String fileName) throws IOException {
+		//port1 += 2;
+		boolean hasEnough = false;
+		outToCentralServer.writeBytes(" checkBalance " + userHostName + " " + fileName + " " + bal + "\n");
+		outToCentralServer.flush();
+		String fromServer = inFromCentralServer.readLine();
+		hasEnough = Boolean.valueOf(fromServer);
+		responseFromClient = "Server verifying funds...";
+		return hasEnough;
 	}
 
 	public void pullData (int connectionPort, String retrieveCommand, String fileName) throws IOException {
