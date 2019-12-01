@@ -4,7 +4,7 @@ import java.util.*;
 
 class HostServer {
 
-    public static final int PORT = 4000;
+    public static final int PORT = 5000;
     public String responseFromServer = "";
     public static void main(String[] args) throws IOException
 

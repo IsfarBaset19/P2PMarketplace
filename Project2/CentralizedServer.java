@@ -120,13 +120,19 @@ class ClientHandler extends Thread {
 		CentralizedServer.userList.remove(temp);
 	}
 
-	private void addFiles(String[] fileList) {
+	private void addFiles(List<String> fileList) {
 		String fileName = "allServerFiles.txt";
 		try {
 			BufferedWriter out = new BufferedWriter(new FileWriter(fileName, true));
 			int i = 0;
-			for (i = 0; i < fileList.length; i++){
-				out.write(fileList[i] + "\n");
+			for (i = 0; i < fileList.size(); i++){
+				// String userHostName = fileList.get(i);
+				// String userConnectionType = fileList.get(i + 1);
+				// String filename = fileList.get(i + 2);
+				// String quality = fileList.get(i + 3);
+				// String description = fileList.get(i + 4);
+				out.write(fileList.get(i));
+				//i += 4;
 			}
 			out.close();
 			//byte[] bytesArray = fileList.getBytes();
@@ -142,10 +148,10 @@ class ClientHandler extends Thread {
 			List<String> currentFile = new ArrayList<>();
 			BufferedReader in = new BufferedReader(new FileReader(fileName));
 			String stringIn;
-			String dontAdd = userHostName + "," + userConnectionType;
+			//String dontAdd = userHostName + ", " + userConnectionType;
 			//read file and add everything that the user didnt add into another list
 			while((stringIn = in.readLine()) != null) {
-				if(!stringIn.contains(dontAdd)){
+				if(!stringIn.contains(userHostName)){
 					currentFile.add(stringIn);
 				}
 			}
@@ -292,7 +298,6 @@ class ClientHandler extends Thread {
 				// }
 
 				if (clientCommand.equals("register")) {
-					System.out.println("Registering User");
 					String userInformation = tokens.nextToken();
 					String[] userCredentials = userInformation.split(",");
 					User newUser = new User(userCredentials[0], userCredentials[1], userCredentials[3], userCredentials[2]);
@@ -307,6 +312,7 @@ class ClientHandler extends Thread {
 					String userConnectionType = tokens.nextToken();
 					String fileListString = tokens.nextToken();
 					String[] clientFileList = fileListString.split(",");
+					List<String> fullStringList = new ArrayList<>();
 					int i = 0;
 					// check that the fileList isn't empty
 					if (clientFileList[0].equals("empty")) {
@@ -314,10 +320,15 @@ class ClientHandler extends Thread {
 					} else {
 						// make the array of strings hostname,connectiontype,clientfileName
 						for (i = 0; i < clientFileList.length; i++) {
-							clientFileList[i] = userHostName + "," + userConnectionType + "," + clientFileList[i] + "," + clientFileList[++i] + ","  + clientFileList[++i] + "," ;
+							String filename = clientFileList[i];
+							String quality = clientFileList[i + 1];
+							String description = clientFileList[i + 2];
+							String fullEntry = userHostName + "," + userConnectionType + "," + filename + "," + quality + "," + description + ",\n";
+							fullStringList.add(fullEntry);
+							i += 2;
 						}
 						// write to servers file system
-						addFiles(clientFileList);
+						addFiles(fullStringList);
 						System.out.println("Files Uploaded");
 					}
 				}

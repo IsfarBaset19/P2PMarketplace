@@ -253,7 +253,15 @@ public class gui {
                 }
                 if(serverToConnectToPort != 0){
                     try{
-                        host.establishConnectionAndPullData(serverToConnectToPort, retrieveCommand, fileName);
+                        host.establishConnection(serverToConnectToPort, retrieveCommand, fileName);
+                        responseFromClient = host.responseFromClient;
+                        printResults();
+                        responseFromClient = "";
+                    } catch (Exception e5){
+
+                    }
+                    try{
+                        host.pullData(serverToConnectToPort, retrieveCommand, fileName);
                         responseFromClient = host.responseFromClient;
                         printResults();
                         responseFromClient = "";
