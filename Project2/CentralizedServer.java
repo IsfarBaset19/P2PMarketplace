@@ -323,9 +323,10 @@ class ClientHandler extends Thread {
 							String filename = clientFileList[i];
 							String quality = clientFileList[i + 1];
 							String description = clientFileList[i + 2];
-							String fullEntry = userHostName + "," + userConnectionType + "," + filename + "," + quality + "," + description + ",\n";
+							String cost = clientFileList[i + 3];
+							String fullEntry = userHostName + "," + userConnectionType + "," + filename + "," + quality + "," + description + "," + cost + ",\n";
 							fullStringList.add(fullEntry);
-							i += 2;
+							i += 3;
 						}
 						// write to servers file system
 						addFiles(fullStringList);

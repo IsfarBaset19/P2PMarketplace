@@ -192,8 +192,9 @@ public class HostClient {
 			String filename = stringArray[i + 2];
 			String quality = stringArray[i + 3];
 			String description = stringArray[i + 4];
-			fullEntry += userHostName + " " + connectionType + " " + filename + " " + quality + " " + description + "\n";
-			i += 4;
+			String cost = stringArray[i + 5];
+			fullEntry += userHostName + " " + connectionType + " " + filename + " " + quality + " " + description + " " + cost + "\n";
+			i += 5;
 			}
 			responseFromClient = "Query returned with results";	
 		} else {
