@@ -105,6 +105,7 @@ public class gui {
         JLabel currentBalance = new JLabel(currentBal);
         currentBalance.setBounds(190, 450, 150, 19);
         frame.getContentPane().add(currentBalance);
+        currentBalance.setVisible(false);
 
 
 
@@ -124,6 +125,7 @@ public class gui {
                     balStr = String.valueOf(bal);
                     currentBal = fixStr(balStr);
                     currentBalance.setText(currentBal);
+                    currentBalance.setVisible(true);
                     printResults();
                     responseFromClient = "";
                 } catch (Exception e) {
@@ -374,6 +376,7 @@ public class gui {
                     responseFromClient = "";
                     textArea.setText("");
                     textKeyArea.setText("");
+                    currentBalance.setVisible(false);
                 } catch (Exception e2) {
 
                 }
