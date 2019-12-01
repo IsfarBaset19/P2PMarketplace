@@ -36,6 +36,30 @@ public class gui {
     private JTextArea textArea;
     private JTextArea textKeyArea;
 
+    public double bal = 25;
+    public String balStr = String.valueOf(bal);
+
+    private String fixStr(String balStr){
+        String cb = "Current Balance: $";
+        if (balStr.length() >= 3){
+            String last3 = balStr.substring(balStr.length() - 3);
+            if(last3.charAt(0) == '.'){
+                String newStr = cb + balStr;
+                return newStr;
+            }else if (last3.charAt(1) == '.'){
+                String newStr = cb + balStr + "0";
+                return newStr;
+            }else{
+                String newStr = cb + balStr + ".00";
+                return newStr;
+            }
+        }else{
+            String newStr = cb + balStr + ".00";
+            return newStr;
+        }
+    }
+    private String currentBal = fixStr(balStr);
+
     private String message;
     private ArrayList<String> results;
 
@@ -84,6 +108,7 @@ public class gui {
                 try {
 
                     String PORT = portNumber.getText();
+                    //String BAL = currentBalance.getText();
                     String serverHost = serverHostName.getText();
                     message = "connect " + serverHost + " " + PORT;
                     port = Integer.parseInt(PORT);
@@ -221,6 +246,13 @@ public class gui {
         table.setBounds(10, 285, 514, -168);
 
         frame.getContentPane().add(table);
+
+        // NEW ---------------------
+        JLabel currentBalance = new JLabel(currentBal);
+        currentBalance.setBounds(180, 450, 150, 19);
+        frame.getContentPane().add(currentBalance);
+
+
 
         JLabel lblEnterCommand = new JLabel("Command:");
         lblEnterCommand.setBounds(10, 300, 95, 14);
