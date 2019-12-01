@@ -330,6 +330,8 @@ public class gui {
                     responseFromClient = host.responseFromClient;
                     printResults();
                     responseFromClient = "";
+                    textArea.setText("");
+                    textKeyArea.setText("");
                 } catch (Exception e2) {
 
                 }

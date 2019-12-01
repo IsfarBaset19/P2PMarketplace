@@ -1,8 +1,0 @@
-user1,Ethernet,Name:testFile.txt,Quality:best,Description:file,
-user1,Ethernet,,Name:happygilmore.txt,Quality:medium,
-user1,Ethernet,Description:movie,,Name:killswitchEngageAlbum.txt,
-user1,Ethernet,Quality:best,Description:music,,
-user1,Ethernet,Name:project2report.txt,Quality:slow,Description:reports,
-user2,Ethernet,Name:pandas.txt,Quality:best,Description:panda-test-files,
-user2,Ethernet,Name:gorillas.txt,Quality:slow,Description:big-ole-monkeys,
-user2,Ethernet,Name:starWars-Episode9.txt,Quality:fast,Description:han-solo-makes-a-comeback,
