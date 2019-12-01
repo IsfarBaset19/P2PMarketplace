@@ -14,7 +14,7 @@ public class HostClient {
 
 	public int port1;
 
-	public double currentBal = 22.50;
+	public double bal = 22.50;
 
 	public String responseFromClient = "";
 	public File directory = new File(System.getProperty("user.dir"));
@@ -109,7 +109,7 @@ public class HostClient {
 		port1 += 2;
 		//this.uploadFileListToServer(connectionType, clientHostName);
 		// delimit using commas and send the registration information to the server
-		String userInformation = clientUserName + "," + clientHostName + "," + connectionType + "," + String.valueOf(serverPort) + "," + String.valueOf(currentBal) + ",";
+		String userInformation = clientUserName + "," + clientHostName + "," + connectionType + "," + String.valueOf(serverPort) + "," + String.valueOf(bal) + ",";
 		outToCentralServer.writeBytes(String.valueOf(port1) + " register " + userInformation + "\n");
 		outToCentralServer.flush();
 		//outToCentralServer.rese;

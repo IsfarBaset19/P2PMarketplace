@@ -36,9 +36,8 @@ public class gui {
     private JTextArea textArea;
     private JTextArea textKeyArea;
 
-    public double bal = 25;
+    public double bal = 0;
     public String balStr = String.valueOf(bal);
-
     private String fixStr(String balStr){
         String cb = "Current Balance: $";
         if (balStr.length() >= 3){
@@ -102,6 +101,13 @@ public class gui {
 
         frame.getRootPane().setDefaultButton(connectButton);
 
+        // ----------------------------- NEW ----------------------------
+        JLabel currentBalance = new JLabel(currentBal);
+        currentBalance.setBounds(190, 450, 150, 19);
+        frame.getContentPane().add(currentBalance);
+
+
+
         connectButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent arg0) {
                 // code for connect
@@ -114,6 +120,10 @@ public class gui {
                     port = Integer.parseInt(PORT);
                     host.connectToCentralServer(port, serverHost);
                     responseFromClient = host.responseFromClient;
+                    bal = host.bal;
+                    balStr = String.valueOf(bal);
+                    currentBal = fixStr(balStr);
+                    currentBalance.setText(currentBal);
                     printResults();
                     responseFromClient = "";
                 } catch (Exception e) {
@@ -247,12 +257,7 @@ public class gui {
 
         frame.getContentPane().add(table);
 
-        // NEW ---------------------
-        JLabel currentBalance = new JLabel(currentBal);
-        currentBalance.setBounds(180, 450, 150, 19);
-        frame.getContentPane().add(currentBalance);
-
-
+        
 
         JLabel lblEnterCommand = new JLabel("Command:");
         lblEnterCommand.setBounds(10, 300, 95, 14);
