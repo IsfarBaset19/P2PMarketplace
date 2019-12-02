@@ -85,37 +85,175 @@ public class gui {
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.getContentPane().setLayout(null);
 
+
+
+
+        // Visable on load
+        JLabel lblServerHostName = new JLabel("Server Host Name:");
+        lblServerHostName.setBounds(10, 10, 110, 20);
+        frame.getContentPane().add(lblServerHostName);
+
+        serverHostName = new JTextField();
+        serverHostName.setBounds(125, 10, 100, 20);
+        frame.getContentPane().add(serverHostName);
+        serverHostName.setColumns(10);
+
         JButton connectButton = new JButton("Connect");
         frame.getRootPane().setDefaultButton(connectButton);
         connectButton.setBounds(230, 10, 100, 20);
         frame.getContentPane().add(connectButton);
 
+        JLabel lblPort = new JLabel("Port:");
+        lblPort.setBounds(90, 35, 50, 20);
+        frame.getContentPane().add(lblPort);
+
+        portNumber = new JTextField();
+        portNumber.setBounds(125, 35, 100, 20);
+        frame.getContentPane().add(portNumber);
+        portNumber.setColumns(10);
+
+        JButton quitButton = new JButton("Quit");
+        quitButton.setBounds(230, 35, 100, 20);
+        frame.getContentPane().add(quitButton);
 
 
 
-        // Label
+
+        // Registration fields
+        JLabel lblNewLabel = new JLabel("Username:");
+        lblNewLabel.setBounds(355, 10, 100, 20);
+        frame.getContentPane().add(lblNewLabel);
+        lblNewLabel.setVisible(false);
+
+        userName = new JTextField();
+        userName.setBounds(425, 10, 100, 20);
+        frame.getContentPane().add(userName);
+        userName.setColumns(10);
+        userName.setVisible(false);
+
+        JButton registerButton = new JButton("Register");
+        registerButton.setBounds(530, 10, 100, 20);
+        frame.getContentPane().add(registerButton);
+        registerButton.setVisible(false);
+
+        JLabel lblHostname = new JLabel("Hostname:");
+        lblHostname.setBounds(355, 35, 70, 20);
+        frame.getContentPane().add(lblHostname);
+        lblHostname.setVisible(false);
+
+        hostName = new JTextField();
+        hostName.setBounds(425, 35, 100, 20);
+        frame.getContentPane().add(hostName);
+        hostName.setColumns(10);
+        hostName.setVisible(false);
+
+        JButton unregisterButton = new JButton("Un-register");
+        unregisterButton.setBounds(530, 35, 100, 20);
+        frame.getContentPane().add(unregisterButton);
+        unregisterButton.setVisible(false);
+
+        JLabel lblSpeed = new JLabel("Speed:");
+        lblSpeed.setBounds(377, 60, 50, 20);
+        frame.getContentPane().add(lblSpeed);
+        lblSpeed.setVisible(false);
+
+        speed = new JComboBox();
+        speed.setBounds(425, 60, 100, 20);
+        speed.addItem("Ethernet");
+        speed.addItem("WiFi");
+        speed.addItem("T1");
+        speed.addItem("T3");
+        DefaultListCellRenderer dlcr = new DefaultListCellRenderer();
+        speed.setRenderer(dlcr);
+        dlcr.setHorizontalAlignment(DefaultListCellRenderer.CENTER);
+        frame.getContentPane().add(speed);
+        speed.setVisible(false);
+
+
+
+
+        // Balance fields
         currentBalance = new JLabel("");
         currentBalance.setBounds(150, 63, 150, 20);
         frame.getContentPane().add(currentBalance);
         currentBalance.setVisible(false);
 
-        // Button
         addToBalance = new JButton("Add Money");
         addToBalance.setBounds(230, 85, 100, 20);
         frame.getContentPane().add(addToBalance);
         addToBalance.setVisible(false);
 
-        // Input Field
         moneyToAdd = new JTextField();
         moneyToAdd.setBounds(125, 85, 100, 20);
         frame.getContentPane().add(moneyToAdd);
         moneyToAdd.setVisible(false);
 
+
+
+        
+        // Keyword search fields
+        JLabel lblKeyword = new JLabel("Keyword:");
+        lblKeyword.setBounds(63, 120, 60, 20);
+        frame.getContentPane().add(lblKeyword);
+        lblKeyword.setVisible(false);
+
+        searchKeyWord = new JTextField();
+        searchKeyWord.setBounds(125, 120, 345, 20);
+        frame.getContentPane().add(searchKeyWord);
+        searchKeyWord.setColumns(10);
+        searchKeyWord.setVisible(false);
+
+        JButton searchButton = new JButton("Search");
+        searchButton.setBounds(480, 120, 100, 20);
+        frame.getContentPane().add(searchButton);
+        searchButton.setVisible(false);
+
+        textKeyArea = new JTextArea();
+        scroll1 = new JScrollPane(textKeyArea);
+        scroll1.setBounds(30, 150, 590, 100);
+        frame.getContentPane().add(scroll1);
+        textKeyArea.setVisible(false);
+        scroll1.setVisible(false);
+
+        table = new JTable();
+        table.setBorder(new LineBorder(new Color(0, 0, 0), 3));
+        table.setBounds(10, 285, 514, -168);
+        frame.getContentPane().add(table);
+        table.setVisible(false);
+
+
+
+
+        // Enter commands fields
+        JLabel lblEnterCommand = new JLabel("Command:");
+        lblEnterCommand.setBounds(56, 270, 65, 20);
+        frame.getContentPane().add(lblEnterCommand);
+        lblEnterCommand.setVisible(false);
+
+        command = new JTextField();
+        command.setBounds(125, 270, 345, 20);
+        frame.getContentPane().add(command);
+        command.setColumns(10);
+        command.setVisible(false);
+
+        JButton goButton = new JButton("Go");
+        goButton.setBounds(480, 270, 100, 20);
+        frame.getContentPane().add(goButton);
+        goButton.setVisible(false);
+
+        textArea = new JTextArea();
+        scroll = new JScrollPane(textArea);
+        scroll.setBounds(30, 300, 590, 100);
+        frame.getContentPane().add(scroll);
+        textArea.setVisible(false);
+        scroll.setVisible(false);
+
+        
+
+
         connectButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent arg0) {
-                // code for connect
                 try {
-
                     String PORT = portNumber.getText();
                     String serverHost = serverHostName.getText();
                     message = "connect " + serverHost + " " + PORT;
@@ -123,9 +261,28 @@ public class gui {
                     host.connectToCentralServer(port, serverHost);
                     responseFromClient = host.responseFromClient;
                     currentBalance.setText("Current Balance: " + currencyFormat.format(balance).toString());
+                    lblNewLabel.setVisible(true);
+                    userName.setVisible(true);
+                    lblHostname.setVisible(true);
+                    hostName.setVisible(true);
+                    lblSpeed.setVisible(true);
+                    speed.setVisible(true);
+                    registerButton.setVisible(true);
+                    unregisterButton.setVisible(true);
                     currentBalance.setVisible(true);
                     addToBalance.setVisible(true);
                     moneyToAdd.setVisible(true);
+                    lblKeyword.setVisible(true);
+                    searchKeyWord.setVisible(true);
+                    searchButton.setVisible(true);
+                    textKeyArea.setVisible(true);
+                    scroll1.setVisible(true);
+                    table.setVisible(true);
+                    lblEnterCommand.setVisible(true);
+                    command.setVisible(true);
+                    goButton.setVisible(true);
+                    textArea.setVisible(true);
+                    scroll.setVisible(true);
                     printResults();
                     responseFromClient = "";
                 } catch (Exception e) {
@@ -149,82 +306,9 @@ public class gui {
                 }
             }
         });
-
         
-        // Label
-        JLabel lblServerHostName = new JLabel("Server Host Name:");
-        lblServerHostName.setBounds(10, 10, 110, 20);
-        frame.getContentPane().add(lblServerHostName);
-
-        // Input Field
-        serverHostName = new JTextField();
-        serverHostName.setBounds(125, 10, 100, 20);
-        frame.getContentPane().add(serverHostName);
-        serverHostName.setColumns(10);
-
-
-        // Label
-        JLabel lblPort = new JLabel("Port:");
-        lblPort.setBounds(90, 35, 50, 20);
-        frame.getContentPane().add(lblPort);
-
-        // Input Field
-        portNumber = new JTextField();
-        portNumber.setBounds(125, 35, 100, 20);
-        frame.getContentPane().add(portNumber);
-        portNumber.setColumns(10);
-
-
-        
-
-        // Label
-        JLabel lblNewLabel = new JLabel("Username:");
-        lblNewLabel.setBounds(355, 10, 100, 20);
-        frame.getContentPane().add(lblNewLabel);
-
-        // Input Field
-        userName = new JTextField();
-        userName.setBounds(425, 10, 100, 20);
-        frame.getContentPane().add(userName);
-        userName.setColumns(10);
-
-        
-        // Label
-        JLabel lblHostname = new JLabel("Hostname:");
-        lblHostname.setBounds(355, 35, 70, 20);
-        frame.getContentPane().add(lblHostname);
-
-        // Input Field
-        hostName = new JTextField();
-        hostName.setBounds(425, 35, 100, 20);
-        frame.getContentPane().add(hostName);
-        hostName.setColumns(10);
-
-
-
-
-        // Label
-        JLabel lblSpeed = new JLabel("Speed:");
-        lblSpeed.setBounds(377, 60, 50, 20);
-        frame.getContentPane().add(lblSpeed);
-
-        // Combo Box
-        speed = new JComboBox();
-        speed.setBounds(425, 60, 100, 20);
-        speed.addItem("Ethernet");
-        speed.addItem("WiFi");
-        speed.addItem("T1");
-        speed.addItem("T3");
-        DefaultListCellRenderer dlcr = new DefaultListCellRenderer();
-        speed.setRenderer(dlcr);
-        dlcr.setHorizontalAlignment(DefaultListCellRenderer.CENTER);
-        frame.getContentPane().add(speed);
-
-        JButton registerButton = new JButton("Register");
         registerButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent arg0) {
-                // code for register
-                // FIRST Register the user on the server
                 String clientUserName = userName.getText();
                 String clientHostName = hostName.getText();
                 String clientConnectionType = speed.getSelectedItem().toString();
@@ -234,45 +318,22 @@ public class gui {
                     responseFromClient = host.responseFromClient;
                     printResults();
                     responseFromClient = "";
-                    
                 } catch (Exception e3) {
 
                 }
-
                 try {
                     host.uploadFileListToServer(clientConnectionType, clientHostName);
                     responseFromClient = host.responseFromClient;
                     printResults();
                     responseFromClient = "";
-                    } catch (Exception e){
+                } catch (Exception e){
 
-                    }
+                }
             }
         });
 
-        registerButton.setBounds(530, 10, 100, 20);
-        frame.getContentPane().add(registerButton);
-
-
-
-
-        // Label
-        JLabel lblKeyword = new JLabel("Keyword:");
-        lblKeyword.setBounds(63, 120, 60, 20);
-        frame.getContentPane().add(lblKeyword);
-
-        // Input Field
-        searchKeyWord = new JTextField();
-        searchKeyWord.setBounds(125, 120, 345, 20);
-        frame.getContentPane().add(searchKeyWord);
-        searchKeyWord.setColumns(10);
-
-        // Button
-        JButton searchButton = new JButton("Search");
         searchButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent arg0) {
-
-                // code for search
                 String keywordSearch = searchKeyWord.getText();
                 String returnedQuery = "";
                 try {
@@ -286,40 +347,9 @@ public class gui {
                 responseFromClient = "";
             }
         });
-        searchButton.setBounds(480, 120, 100, 20);
-        frame.getContentPane().add(searchButton);
-
-        textKeyArea = new JTextArea();
-        scroll1 = new JScrollPane(textKeyArea);
-        scroll1.setBounds(30, 150, 590, 100);
-        frame.getContentPane().add(scroll1);
-
-
-        // ???
-        table = new JTable();
-        table.setBorder(new LineBorder(new Color(0, 0, 0), 3));
-        table.setBounds(10, 285, 514, -168);
-        frame.getContentPane().add(table);
-
-
-
-        // Label
-        JLabel lblEnterCommand = new JLabel("Command:");
-        lblEnterCommand.setBounds(56, 270, 65, 20);
-        frame.getContentPane().add(lblEnterCommand);
-
-        // Input field
-        command = new JTextField();
-        command.setBounds(125, 270, 345, 20);
-        frame.getContentPane().add(command);
-        command.setColumns(10);
-
-        // Button
-        JButton goButton = new JButton("Go");
+        
         goButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-
-                // go command
                 String fileCommand = command.getText();
                 int serverToConnectToPort = 0;
                 String [] commands = fileCommand.split(" ");
@@ -376,18 +406,9 @@ public class gui {
                 }
             }
         });
-        goButton.setBounds(480, 270, 100, 20);
-        frame.getContentPane().add(goButton);
 
-        textArea = new JTextArea();
-        scroll = new JScrollPane(textArea);
-        scroll.setBounds(30, 300, 590, 100);
-        frame.getContentPane().add(scroll);
-
-        JButton unregisterButton = new JButton("Un-register");
         unregisterButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                // unregister command
                 try {
                     String clientUserName = userName.getText();
                     String clientHostName = hostName.getText();
@@ -402,18 +423,9 @@ public class gui {
             }
         });
 
-        unregisterButton.setBounds(530, 35, 100, 20);
-        frame.getContentPane().add(unregisterButton);
-
-        JButton quitButton = new JButton("Quit");
         quitButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 message = "quit";
-
-                // disconnect command
-                // outToServer.writeBytes(port + " " + sentence + " " + "\n");
-                // System.out.println("\nServer Disconnected\n");
-                // System.exit(0);
                 try {
                     String clientUserName = userName.getText();
                     String clientHostName = hostName.getText();
@@ -425,7 +437,6 @@ public class gui {
                 } catch (Exception e5){
 
                 }
-
                 try {
                     host.disconnectFromCentralServer();
                     responseFromClient = host.responseFromClient;
@@ -433,29 +444,36 @@ public class gui {
                     responseFromClient = "";
                     textArea.setText("");
                     textKeyArea.setText("");
+                    lblNewLabel.setVisible(false);
+                    userName.setVisible(false);
+                    lblHostname.setVisible(false);
+                    hostName.setVisible(false);
+                    lblSpeed.setVisible(false);
+                    speed.setVisible(false);
+                    registerButton.setVisible(false);
+                    unregisterButton.setVisible(false);
                     currentBalance.setVisible(false);
                     addToBalance.setVisible(false);
                     moneyToAdd.setVisible(false);
+                    lblKeyword.setVisible(false);
+                    searchKeyWord.setVisible(false);
+                    searchButton.setVisible(false);
+                    textKeyArea.setVisible(false);
+                    scroll1.setVisible(false);
+                    table.setVisible(false);
+                    lblEnterCommand.setVisible(false);
+                    command.setVisible(false);
+                    goButton.setVisible(false);
+                    textArea.setVisible(false);
+                    scroll.setVisible(false);
                 } catch (Exception e2) {
 
                 }
             }
         });
-
-        quitButton.setBounds(230, 35, 100, 20);
-        frame.getContentPane().add(quitButton);
-
     }
 
     public void printResults() {
-        // if(results != null){
-        // textArea.append("\n>> " + message + "\n");
-
-        // for(int i = 0; i < results.size(); i++){
-        // textArea.append(results.get(i));
-        // textArea.append("\n");
-        // }
-        // }
         if (!responseFromClient.equals("")) {
             textArea.append("\n>> " + message + "\n");
             textArea.append(responseFromClient + "\n");

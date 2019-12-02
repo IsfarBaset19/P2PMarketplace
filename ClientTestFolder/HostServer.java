@@ -92,7 +92,7 @@ class ClientHandler extends Thread {
                 }
                 serverFiles(directory, listOfFiles);
 
-                if (clientCommand.equals("retr")) {
+                if (clientCommand.equals("buy")) {
                     Socket dataSocket = new Socket(connectionSocket.getInetAddress(), port);
                     DataOutputStream dataOutToClient = new DataOutputStream(dataSocket.getOutputStream());
                     // String fileName = "file.txt";
