@@ -13,6 +13,12 @@ import javax.swing.JList;
 import javax.swing.border.LineBorder;
 import javax.swing.DefaultListCellRenderer;
 
+import javax.swing.JRadioButton;
+import javax.swing.ButtonGroup;
+//import java.awt.Font;
+//import java.awt.font.TextAttribute;
+//import javax.swing.AbstractButton.ButtonChangeListener;
+
 import java.awt.Color;
 import javax.swing.JTextArea;
 import javax.swing.JTable;
@@ -31,26 +37,28 @@ public class gui {
     private JTextField hostName;
     private JComboBox speed;
 
-    private JTextField searchKeyWord;
-    private JTable table;
-
-    private JTextField command;
-    private JTextArea textArea;
-    private JTextArea textKeyArea;
-
     private JLabel currentBalance;
     private JButton addToBalance;
     private JTextField moneyToAdd;
+    private JRadioButton addTo;
+    private JRadioButton subFrom;
 
+
+    private JTextField searchKeyWord;
+    private JTextArea textKeyArea;
+    private JTable table;
+    private JScrollPane scroll1;
+
+    private JTextField command;
+    private JTextArea textArea;
+    private JScrollPane scroll;
+    
     private String message;
     private ArrayList<String> results;
 
     private String responseFromClient;
     private HostClient host = new HostClient();
     private HostServer server = new HostServer();
-
-    private JScrollPane scroll;
-    private JScrollPane scroll1;
 
     protected Thread listener;
 
@@ -81,9 +89,11 @@ public class gui {
 
         frame = new JFrame();
         frame.setTitle("Client GUI 1");
-        frame.setBounds(500, 500, 650, 450);
+        frame.setBounds(500, 500, 650, 470);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.getContentPane().setLayout(null);
+
+        //Font font = new Font("Courier", Font.BOLD, 12);
 
 
 
@@ -174,43 +184,70 @@ public class gui {
 
         // Balance fields
         currentBalance = new JLabel("");
-        currentBalance.setBounds(150, 63, 150, 20);
+        currentBalance.setBounds(70, 65, 200, 20);
+        currentBalance.setForeground(Color.red);
+        //Font font = currentBalance.getFont();
+        //font = font.deriveFont(
+            //Collections.singletonMap(
+                //TextAttribute.WEIGHT, TextAttribute.WEIGHT_BOLD));
+        //currentBalance.setFont(font);
         frame.getContentPane().add(currentBalance);
         currentBalance.setVisible(false);
 
-        addToBalance = new JButton("Add Money");
-        addToBalance.setBounds(230, 85, 100, 20);
+        JLabel dollars = new JLabel("$");
+        dollars.setBounds(165, 90, 10, 20);
+        frame.getContentPane().add(dollars);
+        //dollars.setVisible(false);
+
+        moneyToAdd = new JTextField();
+        moneyToAdd.setBounds(175, 88, 125, 20);
+        frame.getContentPane().add(moneyToAdd);
+        moneyToAdd.setVisible(false);
+
+        addToBalance = new JButton("Adjust Balance");
+        addToBalance.setBounds(175, 110, 125, 20);
         frame.getContentPane().add(addToBalance);
         addToBalance.setVisible(false);
 
-        moneyToAdd = new JTextField();
-        moneyToAdd.setBounds(125, 85, 100, 20);
-        frame.getContentPane().add(moneyToAdd);
-        moneyToAdd.setVisible(false);
+        JRadioButton addTo = new JRadioButton("Deposit");
+        addTo.setBounds(70, 92, 80, 15);
+        addTo.setSelected(true);
+        frame.getContentPane().add(addTo);
+        //addTo.setVisible(false);
+
+        JRadioButton subFrom = new JRadioButton("Withdraw");
+        subFrom.setBounds(70, 112, 80, 15);
+        subFrom.setSelected(false);
+        frame.getContentPane().add(subFrom);
+        //subFrom.setVisible(false);
+
+        ButtonGroup bGroup = new ButtonGroup();
+        bGroup.add(addTo);
+        bGroup.add(subFrom);
 
 
 
         
         // Keyword search fields
         JLabel lblKeyword = new JLabel("Keyword:");
-        lblKeyword.setBounds(63, 120, 60, 20);
+        lblKeyword.setBounds(63, 145, 60, 20);
         frame.getContentPane().add(lblKeyword);
         lblKeyword.setVisible(false);
 
         searchKeyWord = new JTextField();
-        searchKeyWord.setBounds(125, 120, 345, 20);
+        searchKeyWord.setBounds(125, 145, 345, 20);
         frame.getContentPane().add(searchKeyWord);
         searchKeyWord.setColumns(10);
         searchKeyWord.setVisible(false);
 
         JButton searchButton = new JButton("Search");
-        searchButton.setBounds(480, 120, 100, 20);
+        searchButton.setBounds(480, 145, 100, 20);
         frame.getContentPane().add(searchButton);
         searchButton.setVisible(false);
 
         textKeyArea = new JTextArea();
         scroll1 = new JScrollPane(textKeyArea);
-        scroll1.setBounds(30, 150, 590, 100);
+        scroll1.setBounds(30, 175, 590, 100);
         frame.getContentPane().add(scroll1);
         textKeyArea.setVisible(false);
         scroll1.setVisible(false);
@@ -226,24 +263,24 @@ public class gui {
 
         // Enter commands fields
         JLabel lblEnterCommand = new JLabel("Command:");
-        lblEnterCommand.setBounds(56, 270, 65, 20);
+        lblEnterCommand.setBounds(56, 290, 65, 20);
         frame.getContentPane().add(lblEnterCommand);
         lblEnterCommand.setVisible(false);
 
         command = new JTextField();
-        command.setBounds(125, 270, 345, 20);
+        command.setBounds(125, 290, 345, 20);
         frame.getContentPane().add(command);
         command.setColumns(10);
         command.setVisible(false);
 
         JButton goButton = new JButton("Go");
-        goButton.setBounds(480, 270, 100, 20);
+        goButton.setBounds(480, 290, 100, 20);
         frame.getContentPane().add(goButton);
         goButton.setVisible(false);
 
         textArea = new JTextArea();
         scroll = new JScrollPane(textArea);
-        scroll.setBounds(30, 300, 590, 100);
+        scroll.setBounds(30, 320, 590, 100);
         frame.getContentPane().add(scroll);
         textArea.setVisible(false);
         scroll.setVisible(false);
@@ -260,7 +297,7 @@ public class gui {
                     port = Integer.parseInt(PORT);
                     host.connectToCentralServer(port, serverHost);
                     responseFromClient = host.responseFromClient;
-                    currentBalance.setText("Current Balance: " + currencyFormat.format(balance).toString());
+                    currentBalance.setText("Current Balance:               " + currencyFormat.format(balance).toString());
                     lblNewLabel.setVisible(true);
                     userName.setVisible(true);
                     lblHostname.setVisible(true);
@@ -296,9 +333,9 @@ public class gui {
                 try {
                     String addMoney = moneyToAdd.getText(); 
                     balance += Double.parseDouble(addMoney);
-                    currentBalance.setText("Current Balance: " + currencyFormat.format(balance).toString());
+                    currentBalance.setText("Current Balance:               " + currencyFormat.format(balance).toString());
                     addMoneyToBalance(balance);
-                    responseFromClient = "Added money to balance!";
+                    responseFromClient = "Current Balance Adjusted!";
                     printResults();
                     responseFromClient = "";
                 } catch (Exception e) {
