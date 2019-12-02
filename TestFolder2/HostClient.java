@@ -192,8 +192,9 @@ public class HostClient {
 			String filename = stringArray[i + 2];
 			String quality = stringArray[i + 3];
 			String description = stringArray[i + 4];
-			fullEntry += userHostName + " " + connectionType + " " + filename + " " + quality + " " + description + "\n";
-			i += 4;
+			String cost = stringArray[i + 5];
+			fullEntry += userHostName + " " + connectionType + " " + filename + " " + quality + " " + description + " " + cost + "\n";
+			i += 5;
 			}
 			responseFromClient = "Query returned with results";	
 		} else {
@@ -209,6 +210,17 @@ public class HostClient {
 		String fromServer = inFromCentralServer.readLine();
 		responseFromClient = "Found users server port number...";
 		return Integer.parseInt(fromServer);
+	}
+
+	public double getCostOfItem (String username, String filename) throws IOException {
+		port1 += 2;
+		outToCentralServer.writeBytes(String.valueOf(port1) + " getCost " + username + " " + filename + "\n");
+		outToCentralServer.flush();
+		String fromServer = inFromCentralServer.readLine();
+		if(fromServer.equals("Does not exist")){
+			return -1.00;
+		} 
+		return Double.parseDouble(fromServer);
 	}
 
 	public void establishConnection (int connectionPort, String retrieveCommand, String fileName) throws IOException {
@@ -251,5 +263,66 @@ public class HostClient {
         welcomeData.close();
         dataSocket.close();
         responseFromClient = "Sucessfully downloaded file";
-    }
+	}
+	
+	public double getBalance() throws IOException {
+		File file = new File("balance.txt");
+		if(file.exists()) {
+			BufferedReader br = new BufferedReader(new FileReader(file));
+			String balanceString = br.readLine();
+			if(balanceString != null) {
+				double balance = Double.parseDouble(balanceString);
+				br.close();
+				return balance;
+			} else {
+				br.close();
+				return 0.00;
+			}
+		} else {
+			file.createNewFile();
+			FileWriter fr = null;
+			BufferedWriter bw = null;
+			try {
+				fr = new FileWriter(file);
+				bw = new BufferedWriter(fr);
+				bw.write("0.00\n");
+			} catch (IOException e){
+				e.printStackTrace();
+			} finally {
+				try {
+					bw.close();
+					fr.close();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+			return 0.00;
+		}
+	}
+
+	public void addToBalance (Double balance) throws IOException {
+		File file = new File("balance.txt");
+		if(file.exists()) {
+			FileWriter fr = null;
+			BufferedWriter bw = null;
+			try {
+				fr = new FileWriter(file);
+				bw = new BufferedWriter(fr);
+				bw.write(balance.toString() + "\n");
+			} catch (IOException e){
+				e.printStackTrace();
+			} finally {
+				try {
+					bw.close();
+					fr.close();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+		} 
+	}
+
+	public void subFromBalance (Double balance) throws IOException {
+		addToBalance(balance);
+	}
 }

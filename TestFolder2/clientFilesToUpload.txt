@@ -1,4 +1,4 @@
-Name:testFile.txt,Quality:best,Description:file,
-Name:happygilmore.txt,Quality:medium,Description:movie,
-Name:killswitchEngageAlbum.txt,Quality:best,Description:music,
-Name:project2report.txt,Quality:slow,Description:reports,
+Name:testFile.txt,Quality:best,Description:file,$20.00
+Name:happygilmore.txt,Quality:medium,Description:movie,$100.00
+Name:killswitchEngageAlbum.txt,Quality:best,Description:music,$5.00
+Name:project2report.txt,Quality:slow,Description:reports,$8.00

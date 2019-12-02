@@ -287,35 +287,53 @@ public class gui {
                 String retrieveCommand = commands[0];
                 String fileName = commands[1];
                 String userHostName = commands[2];
+                Double costOfItem = 0.00;
                 try {
-                    serverToConnectToPort = host.getClientPort(userHostName);
-                    responseFromClient = host.responseFromClient;
-                    printResults();
-                    responseFromClient = "";
-                } catch (Exception e4){
-                    
-                }
-                if(serverToConnectToPort != 0){
-                    try{
-                        host.establishConnection(serverToConnectToPort, retrieveCommand, fileName);
-                        responseFromClient = host.responseFromClient;
+                    costOfItem = host.getCostOfItem(fileName, userHostName);
+                    if(costOfItem < 0 || costOfItem > balance){
+                        responseFromClient = "Item does not exist or you don't have sufficent funds!";
                         printResults();
                         responseFromClient = "";
-                    } catch (Exception e5){
-
-                    }
-                    try{
-                        host.pullData(serverToConnectToPort, retrieveCommand, fileName);
-                        responseFromClient = host.responseFromClient;
+                    } else {
+                        try {
+                            serverToConnectToPort = host.getClientPort(userHostName);
+                            responseFromClient = host.responseFromClient;
+                            printResults();
+                            responseFromClient = "";
+                        } catch (Exception e4){
+                            
+                        }
+                        if(serverToConnectToPort != 0){
+                            try{
+                                host.establishConnection(serverToConnectToPort, retrieveCommand, fileName);
+                                responseFromClient = host.responseFromClient;
+                                printResults();
+                                responseFromClient = "";
+                            } catch (Exception e5){
+        
+                            }
+                            try{
+                                host.pullData(serverToConnectToPort, retrieveCommand, fileName);
+                                responseFromClient = host.responseFromClient;
+                                printResults();
+                                responseFromClient = "";
+                            } catch (Exception e5){
+        
+                            }
+                        } else {
+                            responseFromClient = "Could not connect to server";
+                            printResults();
+                            responseFromClient = "";
+                        }
+                        balance -= costOfItem;
+                        currentBalance.setText("Current Balance: " + currencyFormat.format(balance).toString());
+                        subMoneyFromBalance(balance);
+                        responseFromClient = "Money deducted from balance!";
                         printResults();
                         responseFromClient = "";
-                    } catch (Exception e5){
-
                     }
-                } else {
-                    responseFromClient = "Could not connect to server";
-                    printResults();
-                    responseFromClient = "";
+                } catch (Exception e10){
+                    e10.printStackTrace();
                 }
             }
         });

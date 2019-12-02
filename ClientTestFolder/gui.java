@@ -17,6 +17,7 @@ import javax.swing.JTextArea;
 import javax.swing.JTable;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.text.NumberFormat;
 import java.util.*;
 import javax.swing.JScrollPane;
 
@@ -36,10 +37,16 @@ public class gui {
     private JTextArea textArea;
     private JTextArea textKeyArea;
 
+    private JLabel currentBalance;
+    private JButton addToBalance;
+    private JTextField moneyToAdd;
+
     private String message;
     private ArrayList<String> results;
 
     private String responseFromClient;
+    private HostClient host = new HostClient();
+    private HostServer server = new HostServer();
 
     private JScrollPane scroll;
     private JScrollPane scroll1;
@@ -47,6 +54,8 @@ public class gui {
     protected Thread listener;
 
     private int port = 0;
+
+    private double balance = 0.00;
 
     public static void main(String[] args) {
         EventQueue.invokeLater(new Runnable() {
@@ -66,17 +75,32 @@ public class gui {
     }
 
     private void initialize() {
-        HostClient host = new HostClient();
-        HostServer server = new HostServer();
+        NumberFormat currencyFormat = NumberFormat.getCurrencyInstance();
+        getBalance();
 
         frame = new JFrame();
-        frame.setBounds(500, 500, 550, 500);
+        frame.setBounds(700, 700, 700, 700);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.getContentPane().setLayout(null);
 
         JButton connectButton = new JButton("Connect");
 
         frame.getRootPane().setDefaultButton(connectButton);
+
+        currentBalance = new JLabel("");
+        currentBalance.setBounds(190, 450, 150, 19);
+        frame.getContentPane().add(currentBalance);
+        currentBalance.setVisible(false);
+
+        addToBalance = new JButton("Add Money");
+        addToBalance.setBounds(50, 500, 170, 23);
+        frame.getContentPane().add(addToBalance);
+        addToBalance.setVisible(false);
+
+        moneyToAdd = new JTextField();
+        moneyToAdd.setBounds(250, 500, 170, 23);
+        frame.getContentPane().add(moneyToAdd);
+        moneyToAdd.setVisible(false);
 
         connectButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent arg0) {
@@ -89,10 +113,30 @@ public class gui {
                     port = Integer.parseInt(PORT);
                     host.connectToCentralServer(port, serverHost);
                     responseFromClient = host.responseFromClient;
+                    currentBalance.setText("Current Balance: " + currencyFormat.format(balance).toString());
+                    currentBalance.setVisible(true);
+                    addToBalance.setVisible(true);
+                    moneyToAdd.setVisible(true);
                     printResults();
                     responseFromClient = "";
                 } catch (Exception e) {
 
+                }
+            }
+        });
+
+        addToBalance.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent arg0) {
+                try {
+                    String addMoney = moneyToAdd.getText(); 
+                    balance += Double.parseDouble(addMoney);
+                    currentBalance.setText("Current Balance: " + currencyFormat.format(balance).toString());
+                    addMoneyToBalance(balance);
+                    responseFromClient = "Added money to balance!";
+                    printResults();
+                    responseFromClient = "";
+                } catch (Exception e) {
+                    e.printStackTrace();
                 }
             }
         });
@@ -243,35 +287,53 @@ public class gui {
                 String retrieveCommand = commands[0];
                 String fileName = commands[1];
                 String userHostName = commands[2];
+                Double costOfItem = 0.00;
                 try {
-                    serverToConnectToPort = host.getClientPort(userHostName);
-                    responseFromClient = host.responseFromClient;
-                    printResults();
-                    responseFromClient = "";
-                } catch (Exception e4){
-                    
-                }
-                if(serverToConnectToPort != 0){
-                    try{
-                        host.establishConnection(serverToConnectToPort, retrieveCommand, fileName);
-                        responseFromClient = host.responseFromClient;
+                    costOfItem = host.getCostOfItem(fileName, userHostName);
+                    if(costOfItem < 0 || costOfItem > balance){
+                        responseFromClient = "Item does not exist or you don't have sufficent funds!";
                         printResults();
                         responseFromClient = "";
-                    } catch (Exception e5){
-
-                    }
-                    try{
-                        host.pullData(serverToConnectToPort, retrieveCommand, fileName);
-                        responseFromClient = host.responseFromClient;
+                    } else {
+                        try {
+                            serverToConnectToPort = host.getClientPort(userHostName);
+                            responseFromClient = host.responseFromClient;
+                            printResults();
+                            responseFromClient = "";
+                        } catch (Exception e4){
+                            
+                        }
+                        if(serverToConnectToPort != 0){
+                            try{
+                                host.establishConnection(serverToConnectToPort, retrieveCommand, fileName);
+                                responseFromClient = host.responseFromClient;
+                                printResults();
+                                responseFromClient = "";
+                            } catch (Exception e5){
+        
+                            }
+                            try{
+                                host.pullData(serverToConnectToPort, retrieveCommand, fileName);
+                                responseFromClient = host.responseFromClient;
+                                printResults();
+                                responseFromClient = "";
+                            } catch (Exception e5){
+        
+                            }
+                        } else {
+                            responseFromClient = "Could not connect to server";
+                            printResults();
+                            responseFromClient = "";
+                        }
+                        balance -= costOfItem;
+                        currentBalance.setText("Current Balance: " + currencyFormat.format(balance).toString());
+                        subMoneyFromBalance(balance);
+                        responseFromClient = "Money deducted from balance!";
                         printResults();
                         responseFromClient = "";
-                    } catch (Exception e5){
-
                     }
-                } else {
-                    responseFromClient = "Could not connect to server";
-                    printResults();
-                    responseFromClient = "";
+                } catch (Exception e10){
+                    e10.printStackTrace();
                 }
             }
         });
@@ -332,6 +394,9 @@ public class gui {
                     responseFromClient = "";
                     textArea.setText("");
                     textKeyArea.setText("");
+                    currentBalance.setVisible(false);
+                    addToBalance.setVisible(false);
+                    moneyToAdd.setVisible(false);
                 } catch (Exception e2) {
 
                 }
@@ -357,6 +422,30 @@ public class gui {
             textArea.append(responseFromClient + "\n");
         } else {
             textArea.append("\nNOT WORKING");
+        }
+    }
+
+    public void getBalance() {
+        try { 
+            balance = host.getBalance();
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+    }
+
+    public void addMoneyToBalance(Double balance) {
+        try {
+            host.addToBalance(balance);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void subMoneyFromBalance(Double balance) {
+        try {
+            host.subFromBalance(balance);
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 }

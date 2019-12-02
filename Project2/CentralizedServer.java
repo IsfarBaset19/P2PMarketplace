@@ -142,6 +142,30 @@ class ClientHandler extends Thread {
 		}
 	}
 
+	private String getItemCost(String username, String filename) {
+		String fileName = "allServerFiles.txt";
+		String currentFile = "";
+		String [] breakString;
+		try {
+			BufferedReader in = new BufferedReader(new FileReader(fileName));
+			String stringIn;
+			//read file and add everything that the user didnt add into another list
+			while((stringIn = in.readLine()) != null) {
+				if(stringIn.contains(filename) && stringIn.contains(username)){
+					currentFile += stringIn;
+				}
+			}
+			in.close();
+		} catch (Exception e){
+			e.printStackTrace();
+		}
+		if(!currentFile.equals("")){
+			breakString = currentFile.split(",");
+			return breakString[5].substring(1);
+		}
+		return "Does not exist";
+	}
+
 	private void removeFiles(String userHostName, String userConnectionType) {
 		String fileName = "allServerFiles.txt";
 		try {
@@ -352,6 +376,16 @@ class ClientHandler extends Thread {
 					outToClient.writeBytes(returnQuery + "\n");
 					outToClient.flush();
 					System.out.println("User queried file list");
+				}
+
+				if (clientCommand.equals("getCost")) {
+					String username = tokens.nextToken();
+					String filename = tokens.nextToken();
+					String cost = "0.00";
+					cost = this.getItemCost(username, filename);
+					outToClient.writeBytes(cost + "\n");
+					outToClient.flush();
+					System.out.println("User retrieved cost of item");
 				}
 
 				if (clientCommand.equals("quit")) {

@@ -212,6 +212,17 @@ public class HostClient {
 		return Integer.parseInt(fromServer);
 	}
 
+	public double getCostOfItem (String username, String filename) throws IOException {
+		port1 += 2;
+		outToCentralServer.writeBytes(String.valueOf(port1) + " getCost " + username + " " + filename + "\n");
+		outToCentralServer.flush();
+		String fromServer = inFromCentralServer.readLine();
+		if(fromServer.equals("Does not exist")){
+			return -1.00;
+		} 
+		return Double.parseDouble(fromServer);
+	}
+
 	public void establishConnection (int connectionPort, String retrieveCommand, String fileName) throws IOException {
         //Open connection with other server client
         Socket controlSocket = new Socket("127.0.0.1", connectionPort);
