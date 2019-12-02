@@ -11,6 +11,7 @@ import javax.swing.JComboBox;
 import javax.swing.JSeparator;
 import javax.swing.JList;
 import javax.swing.border.LineBorder;
+import javax.swing.DefaultListCellRenderer;
 
 import java.awt.Color;
 import javax.swing.JTextArea;
@@ -79,26 +80,34 @@ public class gui {
         getBalance();
 
         frame = new JFrame();
-        frame.setBounds(700, 700, 700, 700);
+        frame.setTitle("Client GUI 1");
+        frame.setBounds(500, 500, 650, 450);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.getContentPane().setLayout(null);
 
         JButton connectButton = new JButton("Connect");
-
         frame.getRootPane().setDefaultButton(connectButton);
+        connectButton.setBounds(230, 10, 100, 20);
+        frame.getContentPane().add(connectButton);
 
+
+
+
+        // Label
         currentBalance = new JLabel("");
-        currentBalance.setBounds(190, 450, 150, 19);
+        currentBalance.setBounds(150, 63, 150, 20);
         frame.getContentPane().add(currentBalance);
         currentBalance.setVisible(false);
 
+        // Button
         addToBalance = new JButton("Add Money");
-        addToBalance.setBounds(50, 500, 170, 23);
+        addToBalance.setBounds(230, 85, 100, 20);
         frame.getContentPane().add(addToBalance);
         addToBalance.setVisible(false);
 
+        // Input Field
         moneyToAdd = new JTextField();
-        moneyToAdd.setBounds(250, 500, 170, 23);
+        moneyToAdd.setBounds(125, 85, 100, 20);
         frame.getContentPane().add(moneyToAdd);
         moneyToAdd.setVisible(false);
 
@@ -141,55 +150,74 @@ public class gui {
             }
         });
 
-        connectButton.setBounds(380, 11, 170, 23);
-        frame.getContentPane().add(connectButton);
+        
+        // Label
+        JLabel lblServerHostName = new JLabel("Server Host Name:");
+        lblServerHostName.setBounds(10, 10, 110, 20);
+        frame.getContentPane().add(lblServerHostName);
 
+        // Input Field
         serverHostName = new JTextField();
-        serverHostName.setBounds(125, 12, 159, 20);
+        serverHostName.setBounds(125, 10, 100, 20);
         frame.getContentPane().add(serverHostName);
         serverHostName.setColumns(10);
 
-        JLabel lblServerHostName = new JLabel("Server Host Name:");
-        lblServerHostName.setBounds(8, 15, 133, 14);
-        frame.getContentPane().add(lblServerHostName);
 
-        JLabel lblNewLabel = new JLabel("Username:");
-        lblNewLabel.setBounds(10, 43, 75, 14);
-        frame.getContentPane().add(lblNewLabel);
-
-        userName = new JTextField();
-        userName.setBounds(85, 40, 95, 20);
-        frame.getContentPane().add(userName);
-        userName.setColumns(10);
-
+        // Label
         JLabel lblPort = new JLabel("Port:");
-        lblPort.setBounds(289, 15, 34, 14);
+        lblPort.setBounds(90, 35, 50, 20);
         frame.getContentPane().add(lblPort);
 
+        // Input Field
         portNumber = new JTextField();
-        portNumber.setBounds(325, 12, 52, 20);
+        portNumber.setBounds(125, 35, 100, 20);
         frame.getContentPane().add(portNumber);
         portNumber.setColumns(10);
 
+
+        
+
+        // Label
+        JLabel lblNewLabel = new JLabel("Username:");
+        lblNewLabel.setBounds(355, 10, 100, 20);
+        frame.getContentPane().add(lblNewLabel);
+
+        // Input Field
+        userName = new JTextField();
+        userName.setBounds(425, 10, 100, 20);
+        frame.getContentPane().add(userName);
+        userName.setColumns(10);
+
+        
+        // Label
         JLabel lblHostname = new JLabel("Hostname:");
-        lblHostname.setBounds(200, 43, 69, 14);
+        lblHostname.setBounds(355, 35, 70, 20);
         frame.getContentPane().add(lblHostname);
 
+        // Input Field
         hostName = new JTextField();
-        hostName.setBounds(280, 40, 110, 20);
+        hostName.setBounds(425, 35, 100, 20);
         frame.getContentPane().add(hostName);
         hostName.setColumns(10);
 
+
+
+
+        // Label
         JLabel lblSpeed = new JLabel("Speed:");
-        lblSpeed.setBounds(396, 43, 52, 14);
+        lblSpeed.setBounds(377, 60, 50, 20);
         frame.getContentPane().add(lblSpeed);
 
+        // Combo Box
         speed = new JComboBox();
-        speed.setBounds(442, 40, 105, 20);
+        speed.setBounds(425, 60, 100, 20);
         speed.addItem("Ethernet");
         speed.addItem("WiFi");
         speed.addItem("T1");
         speed.addItem("T3");
+        DefaultListCellRenderer dlcr = new DefaultListCellRenderer();
+        speed.setRenderer(dlcr);
+        dlcr.setHorizontalAlignment(DefaultListCellRenderer.CENTER);
         frame.getContentPane().add(speed);
 
         JButton registerButton = new JButton("Register");
@@ -222,18 +250,24 @@ public class gui {
             }
         });
 
-        registerButton.setBounds(10, 68, 137, 23);
+        registerButton.setBounds(530, 10, 100, 20);
         frame.getContentPane().add(registerButton);
 
+
+
+
+        // Label
         JLabel lblKeyword = new JLabel("Keyword:");
-        lblKeyword.setBounds(10, 119, 60, 14);
+        lblKeyword.setBounds(63, 120, 60, 20);
         frame.getContentPane().add(lblKeyword);
 
+        // Input Field
         searchKeyWord = new JTextField();
-        searchKeyWord.setBounds(71, 116, 250, 20);
+        searchKeyWord.setBounds(125, 120, 345, 20);
         frame.getContentPane().add(searchKeyWord);
         searchKeyWord.setColumns(10);
 
+        // Button
         JButton searchButton = new JButton("Search");
         searchButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent arg0) {
@@ -252,30 +286,35 @@ public class gui {
                 responseFromClient = "";
             }
         });
-        searchButton.setBounds(320, 115, 100, 23);
+        searchButton.setBounds(480, 120, 100, 20);
         frame.getContentPane().add(searchButton);
 
         textKeyArea = new JTextArea();
         scroll1 = new JScrollPane(textKeyArea);
-        scroll1.setBounds(10, 150, 514, 103);
+        scroll1.setBounds(30, 150, 590, 100);
         frame.getContentPane().add(scroll1);
 
+
+        // ???
         table = new JTable();
         table.setBorder(new LineBorder(new Color(0, 0, 0), 3));
         table.setBounds(10, 285, 514, -168);
-
         frame.getContentPane().add(table);
 
+
+
+        // Label
         JLabel lblEnterCommand = new JLabel("Command:");
-        lblEnterCommand.setBounds(10, 300, 95, 14);
+        lblEnterCommand.setBounds(56, 270, 65, 20);
         frame.getContentPane().add(lblEnterCommand);
 
+        // Input field
         command = new JTextField();
-
-        command.setBounds(80, 300, 310, 20);
+        command.setBounds(125, 270, 345, 20);
         frame.getContentPane().add(command);
         command.setColumns(10);
 
+        // Button
         JButton goButton = new JButton("Go");
         goButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
@@ -337,12 +376,12 @@ public class gui {
                 }
             }
         });
-        goButton.setBounds(390, 300, 83, 23);
+        goButton.setBounds(480, 270, 100, 20);
         frame.getContentPane().add(goButton);
 
         textArea = new JTextArea();
         scroll = new JScrollPane(textArea);
-        scroll.setBounds(10, 330, 514, 103);
+        scroll.setBounds(30, 300, 590, 100);
         frame.getContentPane().add(scroll);
 
         JButton unregisterButton = new JButton("Un-register");
@@ -363,7 +402,7 @@ public class gui {
             }
         });
 
-        unregisterButton.setBounds(140, 68, 137, 23);
+        unregisterButton.setBounds(530, 35, 100, 20);
         frame.getContentPane().add(unregisterButton);
 
         JButton quitButton = new JButton("Quit");
@@ -403,7 +442,7 @@ public class gui {
             }
         });
 
-        quitButton.setBounds(410, 68, 137, 23);
+        quitButton.setBounds(230, 35, 100, 20);
         frame.getContentPane().add(quitButton);
 
     }
