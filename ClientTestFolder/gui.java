@@ -12,12 +12,8 @@ import javax.swing.JSeparator;
 import javax.swing.JList;
 import javax.swing.border.LineBorder;
 import javax.swing.DefaultListCellRenderer;
-
 import javax.swing.JRadioButton;
 import javax.swing.ButtonGroup;
-//import java.awt.Font;
-//import java.awt.font.TextAttribute;
-//import javax.swing.AbstractButton.ButtonChangeListener;
 
 import java.awt.Color;
 import javax.swing.JTextArea;
@@ -92,8 +88,6 @@ public class gui {
         frame.setBounds(500, 500, 650, 470);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.getContentPane().setLayout(null);
-
-        //Font font = new Font("Courier", Font.BOLD, 12);
 
 
 
@@ -186,18 +180,13 @@ public class gui {
         currentBalance = new JLabel("");
         currentBalance.setBounds(70, 65, 200, 20);
         currentBalance.setForeground(Color.red);
-        //Font font = currentBalance.getFont();
-        //font = font.deriveFont(
-            //Collections.singletonMap(
-                //TextAttribute.WEIGHT, TextAttribute.WEIGHT_BOLD));
-        //currentBalance.setFont(font);
         frame.getContentPane().add(currentBalance);
         currentBalance.setVisible(false);
 
         JLabel dollars = new JLabel("$");
-        dollars.setBounds(165, 90, 10, 20);
+        dollars.setBounds(165, 89, 10, 20);
         frame.getContentPane().add(dollars);
-        //dollars.setVisible(false);
+        dollars.setVisible(false);
 
         moneyToAdd = new JTextField();
         moneyToAdd.setBounds(175, 88, 125, 20);
@@ -213,13 +202,13 @@ public class gui {
         addTo.setBounds(70, 92, 80, 15);
         addTo.setSelected(true);
         frame.getContentPane().add(addTo);
-        //addTo.setVisible(false);
+        addTo.setVisible(false);
 
         JRadioButton subFrom = new JRadioButton("Withdraw");
         subFrom.setBounds(70, 112, 80, 15);
         subFrom.setSelected(false);
         frame.getContentPane().add(subFrom);
-        //subFrom.setVisible(false);
+        subFrom.setVisible(false);
 
         ButtonGroup bGroup = new ButtonGroup();
         bGroup.add(addTo);
@@ -307,8 +296,11 @@ public class gui {
                     registerButton.setVisible(true);
                     unregisterButton.setVisible(true);
                     currentBalance.setVisible(true);
+                    dollars.setVisible(true);
                     addToBalance.setVisible(true);
                     moneyToAdd.setVisible(true);
+                    addTo.setVisible(true);
+                    subFrom.setVisible(true);
                     lblKeyword.setVisible(true);
                     searchKeyWord.setVisible(true);
                     searchButton.setVisible(true);
@@ -332,7 +324,11 @@ public class gui {
             public void actionPerformed(ActionEvent arg0) {
                 try {
                     String addMoney = moneyToAdd.getText(); 
-                    balance += Double.parseDouble(addMoney);
+                    if(addTo.isSelected()){
+                        balance += Double.parseDouble(addMoney);
+                    }else if(subFrom.isSelected()){
+                        balance -= Double.parseDouble(addMoney);
+                    }
                     currentBalance.setText("Current Balance:               " + currencyFormat.format(balance).toString());
                     addMoneyToBalance(balance);
                     responseFromClient = "Current Balance Adjusted!";
@@ -490,8 +486,11 @@ public class gui {
                     registerButton.setVisible(false);
                     unregisterButton.setVisible(false);
                     currentBalance.setVisible(false);
+                    dollars.setVisible(false);
                     addToBalance.setVisible(false);
                     moneyToAdd.setVisible(false);
+                    addTo.setVisible(false);
+                    subFrom.setVisible(false);
                     lblKeyword.setVisible(false);
                     searchKeyWord.setVisible(false);
                     searchButton.setVisible(false);
