@@ -144,7 +144,7 @@ class ClientHandler extends Thread {
     }
 
     private String getCostOfItemBeingPulled(String filename){
-        String fileName = "allServerFiles.txt";
+        String fileName = "clientFilesToUpload.txt";
 		String currentFile = "";
 		String [] breakString;
 		try {

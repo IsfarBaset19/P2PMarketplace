@@ -194,12 +194,12 @@ public class gui {
         moneyToAdd.setVisible(false);
 
         JButton refreshBalance = new JButton("Refresh Balance");
-        refreshBalance.setBounds(160, 150, 125, 20);
+        refreshBalance.setBounds(300, 110, 175, 20);
         frame.getContentPane().add(refreshBalance);
         refreshBalance.setVisible(false);
 
         addToBalance = new JButton("Adjust Balance");
-        addToBalance.setBounds(160, 275, 125, 20);
+        addToBalance.setBounds(175, 110, 125, 20);
         frame.getContentPane().add(addToBalance);
         addToBalance.setVisible(false);
 
@@ -350,7 +350,7 @@ public class gui {
             public void actionPerformed(ActionEvent arg0){
                 try {
                     getBalance();
-                    currentBalance.setText("Current Balance: " + currencyFormat.format(balance).toString());
+                    currentBalance.setText("Current Balance:               " + currencyFormat.format(balance).toString());
                     responseFromClient = "Balance Refreshed!";
                     printResults();
                     responseFromClient = "";
