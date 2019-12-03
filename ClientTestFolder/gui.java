@@ -193,6 +193,11 @@ public class gui {
         frame.getContentPane().add(moneyToAdd);
         moneyToAdd.setVisible(false);
 
+        JButton refreshBalance = new JButton("Refresh Balance");
+        refreshBalance.setBounds(300, 110, 125, 20);
+        frame.getContentPane().add(refreshBalance);
+        refreshBalance.setVisible(false);
+
         addToBalance = new JButton("Adjust Balance");
         addToBalance.setBounds(175, 110, 125, 20);
         frame.getContentPane().add(addToBalance);
@@ -312,6 +317,7 @@ public class gui {
                     goButton.setVisible(true);
                     textArea.setVisible(true);
                     scroll.setVisible(true);
+                    refreshBalance.setVisible(true);
                     printResults();
                     responseFromClient = "";
                 } catch (Exception e) {
@@ -335,6 +341,20 @@ public class gui {
                     printResults();
                     responseFromClient = "";
                 } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+
+        refreshBalance.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent arg0){
+                try {
+                    getBalance();
+                    currentBalance.setText("Current Balance: " + currencyFormat.format(balance).toString());
+                    responseFromClient = "Balance Refreshed!";
+                    printResults();
+                    responseFromClient = "";
+                } catch (Exception e){
                     e.printStackTrace();
                 }
             }
@@ -502,6 +522,7 @@ public class gui {
                     goButton.setVisible(false);
                     textArea.setVisible(false);
                     scroll.setVisible(false);
+                    refreshBalance.setVisible(false);
                 } catch (Exception e2) {
 
                 }
